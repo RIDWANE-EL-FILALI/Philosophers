@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rel-fila <rel-fila@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/07 12:24:39 by rel-fila          #+#    #+#             */
+/*   Updated: 2023/06/07 19:46:18 by rel-fila         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 int	main(int ac, char **av)
@@ -41,10 +53,7 @@ int	start_simulation(t_var *var)
 	if (var->stop_sign == 1)
 		printf("%ld %d %s\n", var->time_of_death, \
 				var->index_of_the_phil_who_died, "died");
-	free(var->phil);
-	free(var->forks);
-	free(var->log);
-	free(var->meal);
+	ft_free(var);
 	return (0);
 }
 
@@ -59,7 +68,13 @@ void	*application(void *data)
 		return (NULL);
 	}
 	if (phil->pos % 2 == 0)
-		usleep(150);
+		usleep(200);
+	ft_odd_phil(phil);
+	return (NULL);
+}
+
+void	ft_odd_phil(t_phil *phil)
+{
 	while (phil->must_eat)
 	{
 		pthread_mutex_lock(&phil->var->forks[phil->fr_fork]);
@@ -83,7 +98,6 @@ void	*application(void *data)
 				phil->pos, "is thinking");
 		phil->must_eat--;
 	}
-	return (NULL);
 }
 
 int	ft_sleep(t_phil *phil, long time)
@@ -100,39 +114,12 @@ int	ft_sleep(t_phil *phil, long time)
 			phil->var->stop_sign = 1;
 			phil->var->index_of_the_phil_who_died = phil->pos;
 			phil->var->time_of_death = get_time_in_ms() - phil->var->start_time;
-			pthread_mutex_unlock(phil->var->meal);
-			pthread_mutex_unlock(&phil->var->forks[phil->sc_fork]);
-			pthread_mutex_unlock(&phil->var->forks[phil->fr_fork]);
-			return (1);
+			return (ft_just_unlock(phil), 1);
 		}
-		pthread_mutex_unlock(phil->var->meal);
-		pthread_mutex_lock(phil->var->meal);
 		if (phil->var->stop_sign)
-		{
-			pthread_mutex_unlock(phil->var->meal);
-			pthread_mutex_unlock(&phil->var->forks[phil->sc_fork]);
-			pthread_mutex_unlock(&phil->var->forks[phil->fr_fork]);
-			return (1);
-		}
+			return (ft_just_unlock(phil), 1);
 		pthread_mutex_unlock(phil->var->meal);
 		usleep(100);
 	}
 	return (0);
-}
-
-void	ft_lone_ranger(t_phil *phil)
-{
-	pthread_mutex_lock(&phil->var->forks[phil->fr_fork]);
-	printf("%ld %d %s\n", get_time_in_ms() - phil->var->start_time, \
-			phil->pos, "has taken a fork");
-	while (1)
-	{
-		if (get_time_in_ms() - phil->last_time_ate > phil->var->time_to_die)
-		{
-			phil->var->index_of_the_phil_who_died = phil->pos;
-			phil->var->time_of_death = get_time_in_ms() - phil->var->start_time;
-			phil->var->stop_sign = 1;
-			break ;
-		}
-	}
 }
