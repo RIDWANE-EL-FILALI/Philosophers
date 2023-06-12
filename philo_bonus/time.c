@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-fila <rel-fila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 02:17:28 by rel-fila          #+#    #+#             */
-/*   Updated: 2023/06/12 02:17:28 by rel-fila         ###   ########.fr       */
+/*   Created: 2023/06/12 02:17:43 by rel-fila          #+#    #+#             */
+/*   Updated: 2023/06/12 02:17:43 by rel-fila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	main(int ac, char **av)
+time_t	get_time_in_ms(void)
 {
-	t_var	*var;
+	time_t			time;
+	struct timeval	tv;
 
-	var = malloc(sizeof(t_var));
-	if (ac - 1 == 4 || ac - 1 == 5)
-	{
-		if (check_valid_input(ac, av))
-			return (1);
-		initiate_var(ac, av, var);
-		start_simulation(var);
-	}
-	else
-		printf("Usage: ./philo <# philosophers> <time to die> <time to eat>\
-				<time to sleep> [# times each philosopher must eat]\n");
-	return (0);
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time);
+}
+
+void	ft_sleep(int time)
+{
+	time_t	now;
+
+	now = get_time_in_ms();
+	while (get_time_in_ms() - now < time)
+		usleep(100);
 }

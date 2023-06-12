@@ -6,7 +6,7 @@
 /*   By: rel-fila <rel-fila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:24:39 by rel-fila          #+#    #+#             */
-/*   Updated: 2023/06/07 19:46:18 by rel-fila         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:18:39 by rel-fila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	start_simulation(t_var *var)
 		i++;
 	}
 	if (var->stop_sign == 1)
-		printf("%ld %d %s\n", var->time_of_death, \
+		printf("%ld %d %s\n", get_time_in_ms() - var->start_time, \
 				var->index_of_the_phil_who_died, "died");
 	ft_free(var);
 	return (0);
