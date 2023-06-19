@@ -1,5 +1,5 @@
 NAME = philo_bonus.a
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 SRC = initiate.c main.c parcing.c start_simulation.c time.c utils.c
 

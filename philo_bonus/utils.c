@@ -6,7 +6,7 @@
 /*   By: rel-fila <rel-fila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 02:17:46 by rel-fila          #+#    #+#             */
-/*   Updated: 2023/06/12 02:17:46 by rel-fila         ###   ########.fr       */
+/*   Updated: 2023/06/18 21:45:48 by rel-fila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	*ft_eat_checker(void *data)
 		sem_wait(phil->var->eat_enough);
 		i++;
 	}
-	ft_log("All philosophers ate", phil->identity, phil->var, DONE_EATING);
 	sem_post(phil->var->exit);
 	return (NULL);
 }
@@ -75,9 +74,9 @@ void	routine(t_phil *phil)
 	ft_log("is eating", phil->identity, phil->var, NORMAL);
 	phil->last_eat = get_time_in_ms();
 	ft_sleep(phil->var->time_to_eat);
+	sem_post(phil->var->forks);
+	sem_post(phil->var->forks);
 	ft_log("is sleeping", phil->identity, phil->var, NORMAL);
-	sem_post(phil->var->forks);
-	sem_post(phil->var->forks);
 	ft_sleep(phil->var->time_to_sleep);
 	ft_log("is thinking", phil->identity, phil->var, NORMAL);
 }
@@ -94,6 +93,7 @@ void	*monitoring_pro(void *data)
 			sem_wait(phil->var->dead_sem);
 			ft_log("died", phil->identity, phil->var, DIED);
 			sem_post(phil->var->exit);
+			break ;
 		}
 	}
 	return (NULL);
