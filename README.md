@@ -7,3 +7,19 @@ The challenge is to design an algorithm that ensures that each philosopher can p
 One possible solution to the Dining Philosophers problem is to use a synchronization mechanism to ensure that only one philosopher can pick up a chopstick at a time. This approach involves assigning a unique ID to each chopstick and using a semaphore to control access to the chopsticks. The semaphore can be used to enforce mutual exclusion, ensuring that only one philosopher can access a chopstick at a time.
 
 Overall, the Dining Philosophers problem is a classic example of a synchronization problem that requires careful consideration of the use of shared resources and concurrency management in a multi-process environment.
+
+# ⛓️LINKS:
+* [My article on medium](https://medium.com/@ridwaneelfilali/philosophers-the-dinning-problem-8ea3c0fc8cc7)
+# 🥇Badge:
+![image](https://github.com/RIDWANE-EL-FILALI/42_badges_1337/blob/master/philosopherse.png)
+# 📚Skills:
+* Unix
+* Imperative programming
+* Rigor 
+
+# 📱REACH ME
+Made by RIDWANE EL FILALI 👋 [See my linkedin](https://www.linkedin.com/in/ridwane-elfilali-0ab7aa253/)
+
+<p align="center">
+<h1 align="center"><strong>If you like this repo star it</strong></h1>
+</p>
